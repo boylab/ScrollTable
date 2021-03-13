@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * 2018/9/14    16:55	    刘泽			    新增 类
  * 2018/9/14	16:55	    刘泽			    增加yyy属性
  */
-public class SynScrollerLayout extends HorizontalScrollView {
+class SynScrollerLayout extends HorizontalScrollView {
     private ItemObserverable sObserverable = new ItemObserverable();
     private int mPosition = -1;
     private View mItemView;

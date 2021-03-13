@@ -3,31 +3,31 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingBottom="1px">
 
     <TextView
         android:id="@+id/text_Heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="1dp"
         android:elevation="8dp"
         android:gravity="center"
-        android:padding="10dp"
         android:text="名称" />
 
     <com.boylab.scrolltable.SynScrollerLayout
-        android:id="@+id/synscrollerview"
+        android:id="@+id/scrollerview_Head"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:scrollbars="none">
 
         <LinearLayout
-            android:id="@+id/ll_child_root"
+            android:id="@+id/layout_headRow"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal" />
 
-        </LinearLayout>
     </com.boylab.scrolltable.SynScrollerLayout>
 </LinearLayout>
 

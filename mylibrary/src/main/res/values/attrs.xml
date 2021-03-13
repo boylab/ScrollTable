@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <attr name="headGravity" format="enum">
+        <enum name="left" value="0" />
+        <enum name="right" value="1" />
+        <enum name="center" value="2" />
+    </attr>
+
+    <attr name="leftGravity" format="enum">
+        <enum name="left" value="0" />
+        <enum name="right" value="1" />
+        <enum name="center" value="2" />
+    </attr>
+
+    <attr name="contentGravity" format="enum">
+        <enum name="left" value="0" />
+        <enum name="right" value="1" />
+        <enum name="center" value="2" />
+    </attr>
+
+    <declare-styleable name="TableView">
+        <attr name="tableRowWidth" format="dimension"/>
+        <attr name="tableRowHeight" format="dimension"/>
+        <attr name="tableDivider" format="reference|color"/>
+        <attr name="tableFoucsColor" format="reference|color"/>
+
+        <!--header-->
+        <attr name="headTextSize" format="dimension"/>
+        <attr name="headTextColor" format="reference|color"/>
+        <attr name="headBackgroundColor" format="reference|color"/>
+        <attr name="headPaddingTop" format="dimension"/>
+        <attr name="headPaddingLeft" format="dimension"/>
+        <attr name="headPaddingBottom" format="dimension"/>
+        <attr name="headPaddingRight" format="dimension"/>
+        <attr name="headGravity"/>
+
+        <!--left-->
+        <attr name="leftTextSize" format="dimension"/>
+        <attr name="leftTextColor" format="reference|color"/>
+        <attr name="leftBackgroundColor" format="reference|color"/>
+        <attr name="leftPaddingTop" format="dimension"/>
+        <attr name="leftPaddingLeft" format="dimension"/>
+        <attr name="leftPaddingBottom" format="dimension"/>
+        <attr name="leftPaddingRight" format="dimension"/>
+        <attr name="leftGravity"/>
+
+        <!--content-->
+        <attr name="contentTextSize" format="dimension"/>
+        <attr name="contentTextColor" format="reference|color"/>
+        <attr name="contentBackgroundColor" format="reference|color"/>
+        <attr name="contentPaddingTop" format="dimension"/>
+        <attr name="contentPaddingLeft" format="dimension"/>
+        <attr name="contentPaddingBottom" format="dimension"/>
+        <attr name="contentPaddingRight" format="dimension"/>
+        <attr name="contentGravity"/>
+
+    </declare-styleable>
+
+</resources>

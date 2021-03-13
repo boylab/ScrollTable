@@ -5,9 +5,11 @@
     android:gravity="center_vertical">
 
     <TextView
-        android:id="@+id/tv"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
+        android:id="@+id/text_TableLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="1dp"
+        android:layout_marginBottom="1dp"
         android:elevation="8dp"
         android:gravity="center"
         android:text="名称" />
@@ -15,34 +17,37 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/tv"
+        android:layout_marginBottom="1dp"
+        android:layout_toRightOf="@+id/text_TableLeft"
         android:orientation="vertical">
 
         <com.boylab.scrolltable.SynScrollerLayout
-            android:id="@+id/synscrollerview"
+            android:id="@+id/synScroller_tableRow"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:clickable="false"
             android:focusableInTouchMode="false"
             android:scrollbars="none">
 
             <LinearLayout
-                android:id="@+id/ll_child_root"
+                android:id="@+id/layout_TableRow"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:orientation="horizontal"></LinearLayout>
+                android:orientation="horizontal">
 
+            </LinearLayout>
 
         </com.boylab.scrolltable.SynScrollerLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_view"
+        <!--固定布局暂时不要-->
+        <!--<LinearLayout
+            android:id="@+id/layout_FixedRow"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:visibility="gone"
-            android:layout_below="@+id/synscrollerview"
-            android:layout_toRightOf="@+id/tv"
+            android:layout_below="@+id/synScroller_tableRow"
+            android:layout_toRightOf="@+id/text_TableLeft"
             android:orientation="horizontal">
 
             <TextView
@@ -69,7 +74,7 @@
                 android:background="#ff0000"
                 android:text="固定布局" />
 
-        </LinearLayout>
+        </LinearLayout>-->
     </LinearLayout>
 
 </RelativeLayout>

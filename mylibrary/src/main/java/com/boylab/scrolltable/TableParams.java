@@ -1,16 +1,18 @@
-package com.boylab.protocol;
+package com.boylab.scrolltable;
 
 import android.graphics.Color;
+
+import com.boylab.protocol.ItemGravity;
 
 import java.util.HashMap;
 import java.util.Set;
 
-public class ItemParams {
+class TableParams {
 
     public static final int TEXT_SIZE = 20;
     public static final int PADDING = 0;
-    public static final int HEIGHT = 60;
-    public static final int WIDTH = 160;
+    public static final int HEIGHT = 80;
+    public static int WIDTH = 160;
 
     //显示格式
     private int height = HEIGHT;
@@ -25,22 +27,21 @@ public class ItemParams {
     private int paddingRight;
     private int paddingBottom;
 
-    private ItemGravity itemGravity;
+    private ItemGravity itemGravity = ItemGravity.CENTER;
 
-    public ItemParams() {
+    public TableParams() {
     }
 
-    public ItemParams(int backgroundColor) {
+    public TableParams(int backgroundColor) {
         this.height = HEIGHT;
         this.textSize = 20;
         this.textColor = Color.BLACK;
         this.backgroundColor = backgroundColor;
         this.foucsColor = backgroundColor;
-        this.paddingLeft = 0;
-        this.paddingTop = 0;
-        this.paddingRight = 0;
-        this.paddingBottom = 0;
-
+        this.paddingLeft = 6;
+        this.paddingTop = 2;
+        this.paddingRight = 6;
+        this.paddingBottom = 2;
         this.itemGravity = ItemGravity.CENTER;
     }
 
