@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.boylab.example.bean.Student;
 import com.boylab.example.bean.StudentLabel;
@@ -29,6 +30,13 @@ public class MainActivity extends AppCompatActivity {
 
         TableView tableView = findViewById(R.id.tableView);
         tableView.setTableData(new StudentLabel(), mTableDatas);
+
+        /*tableView.setmOnItemClickListenter(new TableView.OnItemClickListenter() {
+            @Override
+            public void onItemClick(View item, int position) {
+
+            }
+        });*/
 
     }
 }

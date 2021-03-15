@@ -19,8 +19,8 @@ class SynScrollerLayout extends HorizontalScrollView {
     private int mPosition = -1;
     private View mItemView;
     private OnItemClickListener mOnItemClickListener;
-    private int mNomarlColor = getDrawingCacheBackgroundColor();
-    private int mSelectColor = Color.GRAY;
+    /*private int mNomarlColor = getDrawingCacheBackgroundColor();
+    private int mSelectColor = Color.GRAY;*/
 
 
     private float mStartX;
@@ -38,13 +38,13 @@ class SynScrollerLayout extends HorizontalScrollView {
         super(context, attrs, defStyleAttr);
     }
 
-    public void setNomarlColor(int nomarlColor) {
+    /*public void setNomarlColor(int nomarlColor) {
         mNomarlColor = nomarlColor;
     }
 
     public void setSelectColor(int selectColor) {
         mSelectColor = selectColor;
-    }
+    }*/
 
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
@@ -102,7 +102,7 @@ class SynScrollerLayout extends HorizontalScrollView {
         float dx = Math.abs(x - mStartX);
         if (dx > 50 || dy > 0) {
             if (mItemView != null) {
-                mItemView.setBackgroundColor(mNomarlColor);
+                //mItemView.setBackgroundColor(mNomarlColor);
                 removeCallbacks(mMoveAction);
             }
         }
@@ -116,7 +116,7 @@ class SynScrollerLayout extends HorizontalScrollView {
         float dx = Math.abs(x - mStartX);
         if (dx < 50 && dy < 50) {
             if (mPosition != -1 && mItemView != null) {
-                mItemView.setBackgroundColor(mSelectColor);
+                //mItemView.setBackgroundColor(mSelectColor);
 
                 postDelayed(mUpAction, 50);
                 if (mOnItemClickListener != null) {
@@ -124,9 +124,9 @@ class SynScrollerLayout extends HorizontalScrollView {
                 }
             }
         } else {
-            if (mItemView != null) {
+            /*if (mItemView != null) {
                 mItemView.setBackgroundColor(mNomarlColor);
-            }
+            }*/
             mPosition = -1;
             mItemView = null;
         }
@@ -136,7 +136,7 @@ class SynScrollerLayout extends HorizontalScrollView {
         @Override
         public void run() {
             if (mItemView != null) {
-                mItemView.setBackgroundColor(mNomarlColor);
+                //mItemView.setBackgroundColor(mNomarlColor);
                 mPosition = -1;
                 mItemView = null;
                 removeCallbacks(mUpAction);
@@ -147,7 +147,7 @@ class SynScrollerLayout extends HorizontalScrollView {
         @Override
         public void run() {
             if (mItemView != null) {
-                mItemView.setBackgroundColor(mSelectColor);
+                //mItemView.setBackgroundColor(mSelectColor);
             }
         }
     };

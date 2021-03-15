@@ -20,10 +20,10 @@
     </attr>
 
     <declare-styleable name="TableView">
-        <attr name="tableRowWidth" format="dimension"/>
-        <attr name="tableRowHeight" format="dimension"/>
-        <attr name="tableDivider" format="reference|color"/>
-        <attr name="tableFoucsColor" format="reference|color"/>
+        <attr name="rowWidths" format="reference"/>
+        <attr name="rowHeight" format="dimension"/>
+        <attr name="rowDivider" format="reference|color"/>
+        <attr name="rowFoucsColor" format="reference|color"/>
 
         <!--header-->
         <attr name="headTextSize" format="dimension"/>

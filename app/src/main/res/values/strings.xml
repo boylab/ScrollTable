@@ -1,3 +1,29 @@
 <resources>
     <string name="app_name">ScrollTable</string>
+
+    <integer-array name="WithList">
+        <item>160</item>
+        <item>160</item>
+        <item>160</item>
+        <item>160</item>
+        <item>160</item>
+        <item>160</item>
+        <item>160</item>
+        <item>160</item>
+        <item>160</item>
+        <item>200</item>
+        <item>200</item>
+        <item>200</item>
+        <item>200</item>
+        <item>160</item>
+        <item>160</item>
+        <item>160</item>
+        <item>160</item>
+        <item>160</item>
+        <item>160</item>
+        <item>160</item>
+        <item>160</item>
+        <item>160</item>
+    </integer-array>
+
 </resources>

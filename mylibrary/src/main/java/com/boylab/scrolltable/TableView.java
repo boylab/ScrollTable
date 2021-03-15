@@ -3,6 +3,7 @@ package com.boylab.scrolltable;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -61,7 +63,7 @@ public class TableView extends LinearLayout {
     /**
      * 参数
      */
-    private HashMap<Integer, Integer> itemWidth = new HashMap<>();
+    private HashMap<Integer, Integer> itemWidths = new HashMap<>();
     private float itemHeight = TableParams.HEIGHT;
     private int divider = getContext().getResources().getColor(android.R.color.darker_gray);
     private TableParams headParams, leftParams, contentParams;
@@ -88,30 +90,39 @@ public class TableView extends LinearLayout {
         if (attrs != null) {
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.TableView);
 
-            int resourceId = typedArray.getResourceId(R.styleable.TableView_tableRowWidth, 0);
+            int resourceId = typedArray.getResourceId(R.styleable.TableView_rowWidths, 0);
             if (resourceId != 0){
                 int[] intArray = getResources().getIntArray(resourceId);
+                //Log.i(">>>>>>", "parseRes: "+ Arrays.toString(intArray));
                 if (intArray != null) {
                     for (int i = 0; i < intArray.length; i++) {
-                        itemWidth.put(i, intArray[i]);
+                        itemWidths.put(i, intArray[i]);
                     }
                 }
+                /*String string = "";
+                for (int i = 0; i < intArray.length; i++) {
+                    string = string+ itemWidths.get(i) + "  ";
+                }
+                Log.i(">>>>>>", "parseRes: "+ string);*/
             }
 
-            itemHeight = typedArray.getDimension(R.styleable.TableView_tableRowHeight, TableParams.HEIGHT);
+            itemHeight = typedArray.getDimension(R.styleable.TableView_rowHeight, TableParams.HEIGHT);
             headParams.setHeight((int) itemHeight);
-            headParams.setItemWidth(itemWidth);
+            headParams.setItemWidth(itemWidths);
             leftParams.setHeight((int) itemHeight);
-            leftParams.setItemWidth(itemWidth);
+            leftParams.setItemWidth(itemWidths);
             contentParams.setHeight((int) itemHeight);
-            contentParams.setItemWidth(itemWidth);
+            contentParams.setItemWidth(itemWidths);
 
-            divider = typedArray.getColor(R.styleable.TableView_tableDivider, getResources().getColor(android.R.color.darker_gray));
-            int foucsColor = typedArray.getColor(R.styleable.TableView_tableFoucsColor, getResources().getColor(android.R.color.holo_blue_bright));
+            divider = typedArray.getColor(R.styleable.TableView_rowDivider, getResources().getColor(android.R.color.darker_gray));
+            int foucsColor = typedArray.getColor(R.styleable.TableView_rowFoucsColor, getResources().getColor(android.R.color.holo_blue_bright));
             headParams.setFoucsColor(foucsColor);
             leftParams.setFoucsColor(foucsColor);
             contentParams.setFoucsColor(foucsColor);
 
+            /**
+             * 标头部参数
+             */
             float headTextSize = typedArray.getDimension(R.styleable.TableView_headTextSize, TableParams.TEXT_SIZE);
             int headTextColor = typedArray.getColor(R.styleable.TableView_headTextColor, getResources().getColor(android.R.color.black));
             int headBackgroundColor = typedArray.getColor(R.styleable.TableView_headBackgroundColor, getResources().getColor(android.R.color.holo_blue_light));
@@ -130,6 +141,9 @@ public class TableView extends LinearLayout {
             headParams.setPaddingRight((int) headPaddingRight);
             headParams.setItemGravity(headGravity);
 
+            /**
+             * 表固定列参数
+             */
             float leftTextSize = typedArray.getDimension(R.styleable.TableView_leftTextSize, TableParams.TEXT_SIZE);
             int leftTextColor = typedArray.getColor(R.styleable.TableView_leftTextColor, getResources().getColor(android.R.color.black));
             int leftBackgroundColor = typedArray.getColor(R.styleable.TableView_leftBackgroundColor, getResources().getColor(android.R.color.holo_blue_bright));
@@ -148,6 +162,9 @@ public class TableView extends LinearLayout {
             leftParams.setPaddingRight((int) leftPaddingRight);
             leftParams.setItemGravity(leftGravity);
 
+            /**
+             * 表内容参数
+             */
             float contentTextSize = typedArray.getDimension(R.styleable.TableView_contentTextSize, TableParams.TEXT_SIZE);
             int contentTextColor = typedArray.getColor(R.styleable.TableView_contentTextColor, getResources().getColor(android.R.color.black));
             int contentBackgroundColor = typedArray.getColor(R.styleable.TableView_contentBackgroundColor, getResources().getColor(android.R.color.white));
@@ -296,7 +313,6 @@ public class TableView extends LinearLayout {
                 }
             }
         });
-
     }
 
     public void notifyDataSetChanged() {
@@ -365,9 +381,6 @@ public class TableView extends LinearLayout {
     private int divider = getContext().getResources().getColor(android.R.color.darker_gray);
     private TableParams headParams, leftParams, contentParams;*/
 
-
-
-
     public void setDivider(int divider) {
         this.divider = divider;
         layout_HeadView.setBackgroundColor(divider);
@@ -383,7 +396,7 @@ public class TableView extends LinearLayout {
 
         Set<Integer> keySet = itemWidth.keySet();
         for(int key : keySet){
-            this.itemWidth.put(key, itemWidth.get(key));
+            this.itemWidths.put(key, itemWidth.get(key));
         }
 
         headParams.setHeight((int) this.itemHeight);
@@ -394,17 +407,15 @@ public class TableView extends LinearLayout {
         leftParams.setItemWidth(itemWidth);
         contentParams.setItemWidth(itemWidth);
 
-        setTextHeading();
+        freshHeading();
     }
 
     public int itemWidth(int column) {
-        if (itemWidth.containsKey(column)){
-            return itemWidth.get(column);
+        if (itemWidths.containsKey(column)){
+            return itemWidths.get(column);
         }
         return TableParams.HEIGHT;
     }
-
-
 
     /**
      * 下拉刷新监听
