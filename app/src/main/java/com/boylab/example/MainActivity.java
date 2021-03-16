@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         TableView tableView = findViewById(R.id.tableView);
         /**
-         * 可设置一些参数
+         * 可设置一些参数...
          */
         tableView.setTableData(new StudentLabel(), mTableDatas);
 
@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "onItemClick: "+position, Toast.LENGTH_SHORT).show();
             }
         });
-
 
         /**
          * 下拉刷新（用的少）
