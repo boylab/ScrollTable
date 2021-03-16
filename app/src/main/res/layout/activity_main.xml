@@ -5,11 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
+    
     <com.boylab.scrolltable.TableView
         android:id="@+id/tableView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:rowWidths="@array/WithList"/>
+        app:contentGravity="center"
+        app:rowWidths="@array/WithList" />
 
 </RelativeLayout>

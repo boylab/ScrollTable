@@ -25,7 +25,7 @@ public class Student implements ItemRow {
         /**
          * 模拟初始化数据
          */
-        this.id = Long.valueOf(100 + i * i);
+        this.id = (long) i;
         this.name = "名字" + i;
         this.age = i * i;
         this.sex = (i % 3 == 0 ? "boy" : "girl");
@@ -157,8 +157,6 @@ public class Student implements ItemRow {
         /**
          * position 对应的值 与 Label的标签对应上即可
          */
-        position = position % 12;
-
         if (position == 0) {
             return String.valueOf(id);
         } else if (position == 1) {

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.boylab.protocol.ItemGravity;
 import com.boylab.protocol.ItemRow;
+import com.boylab.utils.DensityUtil;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
@@ -25,7 +26,6 @@ import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -46,27 +46,26 @@ public class TableView extends LinearLayout {
     private TableViewAdapter tableViewAdapter;
 
     /**
-     * 数据结构
-     */
-    private ItemRow headRow;
-    private ArrayList<? extends ItemRow> mTableDatas = new ArrayList<ItemRow>();
-
-    /**
-     *  点击、长按
-     * 下拉刷新、上拉加载监听
-     */
-    private OnItemClickListenter mOnItemClickListenter;
-    private OnItemLongClickListenter mOnItemLongClickListenter;
-    private OnTableRefreshListener mRefreshListener;
-    private OnTableLoadMoreListener mLoadMoreListener;
-
-    /**
      * 参数
      */
     private HashMap<Integer, Integer> itemWidths = new HashMap<>();
     private float itemHeight = TableParams.HEIGHT;
     private int divider = getContext().getResources().getColor(android.R.color.darker_gray);
     private TableParams headParams, leftParams, contentParams;
+
+    /**
+     * 数据结构
+     */
+    private ItemRow headRow;
+    private ArrayList<? extends ItemRow> mTableDatas = new ArrayList<ItemRow>();
+
+    /**
+     *  点击
+     * 下拉刷新、上拉加载监听
+     */
+    private OnItemClickListenter mOnItemClickListenter;
+    private OnTableRefreshListener mRefreshListener;
+    private OnTableLoadMoreListener mLoadMoreListener;
 
     public TableView(Context context) {
         this(context, null, 0);
@@ -83,6 +82,8 @@ public class TableView extends LinearLayout {
     }
 
     private void parseRes(Context context, AttributeSet attrs) {
+        DensityUtil.initDensity(context);
+
         headParams = new TableParams(getResources().getColor(android.R.color.holo_blue_light));
         leftParams = new TableParams(getResources().getColor(android.R.color.holo_blue_bright));
         contentParams = new TableParams(getResources().getColor(android.R.color.white));
@@ -93,17 +94,11 @@ public class TableView extends LinearLayout {
             int resourceId = typedArray.getResourceId(R.styleable.TableView_rowWidths, 0);
             if (resourceId != 0){
                 int[] intArray = getResources().getIntArray(resourceId);
-                //Log.i(">>>>>>", "parseRes: "+ Arrays.toString(intArray));
                 if (intArray != null) {
                     for (int i = 0; i < intArray.length; i++) {
                         itemWidths.put(i, intArray[i]);
                     }
                 }
-                /*String string = "";
-                for (int i = 0; i < intArray.length; i++) {
-                    string = string+ itemWidths.get(i) + "  ";
-                }
-                Log.i(">>>>>>", "parseRes: "+ string);*/
             }
 
             itemHeight = typedArray.getDimension(R.styleable.TableView_rowHeight, TableParams.HEIGHT);
@@ -199,8 +194,8 @@ public class TableView extends LinearLayout {
         refreshLayout = findViewById(R.id.refreshLayout);
         rv_TableView = findViewById(R.id.rv_TableView);
 
-        freshHeading();
         setDivider(divider);
+        freshHeadRow();
 
         refreshLayout.setRefreshHeader(new ClassicsHeader(getContext()));
         refreshLayout.setRefreshFooter(new ClassicsFooter(getContext()));
@@ -234,12 +229,12 @@ public class TableView extends LinearLayout {
                 if (mOnItemClickListenter != null){
                     mOnItemClickListenter.onItemClick(view, position);
                 }
-
             }
         });
     }
 
-    private void freshHeading() {
+    private void freshHeadRow() {
+        //左上角TextView
         ViewGroup.LayoutParams layoutParams = text_Heading.getLayoutParams();
         layoutParams.height = headParams.getHeight();
         layoutParams.width = headParams.getWidth(0);
@@ -249,8 +244,17 @@ public class TableView extends LinearLayout {
         text_Heading.setTextColor(headParams.getTextColor());
         text_Heading.setBackgroundColor(headParams.getBackgroundColor());
         text_Heading.setPadding(headParams.getPaddingLeft(), headParams.getPaddingTop(), headParams.getPaddingRight(), headParams.getPaddingBottom());
-
         text_Heading.setGravity(headParams.getItemGravity().getGravity());
+
+        //HeadRow
+        if (headRow != null){
+            layout_headRow.removeAllViews();
+            for (int column = 1; column < headRow.size(); column++) {
+                View inflateText = inflateText(column);
+                layout_headRow.addView(inflateText);
+            }
+        }
+
     }
 
     /**
@@ -260,27 +264,17 @@ public class TableView extends LinearLayout {
      */
     public void setTableData(ItemRow headRow, ArrayList<? extends ItemRow> mTableDatas) {
         this.headRow = headRow;
-        text_Heading.setText(headRow.get(0));
-
-        /**
-         * 初始化head视图
-         */
-        layout_headRow.removeAllViews();
-        for (int i = 1; i < headRow.size(); i++) {
-            View inflateText = inflateText(headRow.get(i));
-            layout_headRow.addView(inflateText);
-        }
-
+        freshHeadRow();
         setTableDatas(mTableDatas);
     }
 
-    private View inflateText(String labelText) {
+    private View inflateText(int column) {
         View inflate = View.inflate(getContext(), R.layout.item_tableview_text, null);
         TextView text_item = inflate.findViewById(R.id.text_Item_TableView);
 
         ViewGroup.LayoutParams layoutParams = text_item.getLayoutParams();
         layoutParams.height = headParams.getHeight();
-        layoutParams.width = headParams.getWidth(0);
+        layoutParams.width = headParams.getWidth(column);
         text_item.setLayoutParams(layoutParams);
 
         text_item.setTextSize(headParams.getTextSize());
@@ -290,7 +284,7 @@ public class TableView extends LinearLayout {
 
         text_item.setGravity(headParams.getItemGravity().getGravity());
 
-        text_item.setText(labelText);
+        text_item.setText(headRow.get(column));
         return inflate;
     }
 
@@ -305,26 +299,17 @@ public class TableView extends LinearLayout {
         tableViewAdapter = new TableViewAdapter(getContext(), this.mTableDatas, leftParams, contentParams);
         tableViewAdapter.setSynScrollerview(scrollerview_Head);
         rv_TableView.setAdapter(tableViewAdapter);
-        tableViewAdapter.setOnItemLongClickListenter(new OnItemLongClickListenter() {
-            @Override
-            public void onItemLongClick(View item, int position) {
-                if (mOnItemLongClickListenter != null){
-                    mOnItemLongClickListenter.onItemLongClick(item, position);
-                }
-            }
-        });
     }
 
     public void notifyDataSetChanged() {
-        tableViewAdapter.notifyDataSetChanged();
+        freshHeadRow();
+        if (tableViewAdapter != null){
+            tableViewAdapter.notifyDataSetChanged();
+        }
     }
 
     public void setmOnItemClickListenter(OnItemClickListenter mOnItemClickListenter) {
         this.mOnItemClickListenter = mOnItemClickListenter;
-    }
-
-    public void setmOnItemLongClickListenter(OnItemLongClickListenter mOnItemLongClickListenter) {
-        this.mOnItemLongClickListenter = mOnItemLongClickListenter;
     }
 
     public void setEnableRefresh(boolean enabled) {
@@ -372,14 +357,9 @@ public class TableView extends LinearLayout {
         //调用 finishRefresh(boolean success);
     }
 
-    /********************asdfasfasfasfasfa*********************/
-
-    /**
-     * 参数
-    private HashMap<Integer, Integer> itemWidth = new HashMap<>();
-    private float itemHeight = TableParams.HEIGHT;
-    private int divider = getContext().getResources().getColor(android.R.color.darker_gray);
-    private TableParams headParams, leftParams, contentParams;*/
+    public int getDivider() {
+        return divider;
+    }
 
     public void setDivider(int divider) {
         this.divider = divider;
@@ -387,27 +367,51 @@ public class TableView extends LinearLayout {
         rv_TableView.setBackgroundColor(divider);
     }
 
+    /**
+     * Freshed HeadRow
+     * @param itemHeight
+     * @param itemWidths
+     */
+    public void setItemRect(int itemHeight, HashMap<Integer, Integer> itemWidths) {
+        setItemHeight(itemHeight);
+        setItemWidths(itemWidths);
+
+        freshHeadRow();
+    }
+
     public int getItemHeight() {
         return (int) itemHeight;
     }
 
-    public void setItemHeight(int itemHeight, HashMap<Integer, Integer> itemWidth) {
+    public void setItemHeight(float itemHeight) {
         this.itemHeight = itemHeight;
-
-        Set<Integer> keySet = itemWidth.keySet();
-        for(int key : keySet){
-            this.itemWidths.put(key, itemWidth.get(key));
-        }
-
         headParams.setHeight((int) this.itemHeight);
         leftParams.setHeight((int) this.itemHeight);
         contentParams.setHeight((int) this.itemHeight);
+    }
 
-        headParams.setItemWidth(itemWidth);
-        leftParams.setItemWidth(itemWidth);
-        contentParams.setItemWidth(itemWidth);
+    public HashMap<Integer, Integer> getItemWidths() {
+        return itemWidths;
+    }
 
-        freshHeading();
+    public void setItemWidths(HashMap<Integer, Integer> itemWidths) {
+        if (itemWidths == null){
+            return;
+        }
+
+        if (itemWidths.isEmpty()){
+            this.itemWidths.clear();
+        }else {
+            Set<Integer> keySet = itemWidths.keySet();
+            for(int key : keySet){
+                this.itemWidths.put(key, itemWidths.get(key));
+            }
+            headParams.setItemWidth(this.itemWidths);
+            leftParams.setItemWidth(this.itemWidths);
+            contentParams.setItemWidth(this.itemWidths);
+
+            // freshHeading();
+        }
     }
 
     public int itemWidth(int column) {
@@ -415,6 +419,178 @@ public class TableView extends LinearLayout {
             return itemWidths.get(column);
         }
         return TableParams.HEIGHT;
+    }
+
+    /**
+     * 参数
+     * headParams,
+     * leftParams,
+     * contentParams;
+     */
+    public float getHeadTextSize() {
+        return headParams.getTextSize();
+    }
+
+    public void setHeadTextSize(int headTextSize) {
+        headParams.setTextSize(headTextSize);
+    }
+
+    public int getHeadTextColor() {
+        return headParams.getTextColor();
+    }
+
+    public void setHeadTextColor(int headTextColor) {
+        headParams.setTextColor(headTextColor);
+    }
+
+    public int getHeadBackgroundColor() {
+        return headParams.getBackgroundColor();
+    }
+
+    public void setHeadBackgroundColor(int headBackgroundColor) {
+        headParams.setBackgroundColor(headBackgroundColor);
+    }
+
+    public int getHeadPaddingTop() {
+        return headParams.getPaddingTop();
+    }
+
+    public int getHeadPaddingLeft() {
+        return headParams.getPaddingLeft();
+    }
+
+    public int getHeadPaddingBottom() {
+        return headParams.getPaddingBottom();
+    }
+
+    public int getHeadPaddingRight() {
+        return headParams.getPaddingRight();
+    }
+
+    public void setHeadPadding(int top, int left, int bottom, int right) {
+        headParams.setPaddingTop(top);
+        headParams.setPaddingLeft(left);
+        headParams.setPaddingBottom(bottom);
+        headParams.setPaddingRight(right);
+    }
+
+    public ItemGravity getHeadGravity() {
+        return headParams.getItemGravity();
+    }
+
+    public void setHeadGravity(ItemGravity headGravity) {
+        headParams.setItemGravity(headGravity);
+    }
+
+    public float getLeftTextSize() {
+        return leftParams.getTextSize();
+    }
+
+    public void setLeftTextSize(int leftTextSize) {
+        leftParams.setTextSize(leftTextSize);
+    }
+
+    public int getLeftTextColor() {
+        return leftParams.getTextColor();
+    }
+
+    public void setLeftTextColor(int leftTextColor) {
+        leftParams.setTextColor(leftTextColor);
+    }
+
+    public int getLeftBackgroundColor() {
+        return leftParams.getBackgroundColor();
+    }
+
+    public void setLeftBackgroundColor(int leftBackgroundColor) {
+        leftParams.setBackgroundColor(leftBackgroundColor);
+    }
+
+    public int getLeftPaddingTop() {
+        return leftParams.getPaddingTop();
+    }
+
+    public int getLeftPaddingLeft() {
+        return leftParams.getPaddingLeft();
+    }
+
+    public int getLeftPaddingBottom() {
+        return leftParams.getPaddingBottom();
+    }
+
+    public int getLeftPaddingRight() {
+        return leftParams.getPaddingRight();
+    }
+
+    public void setLeftPadding(int top, int left, int bottom, int right) {
+        leftParams.setPaddingTop(top);
+        leftParams.setPaddingLeft(left);
+        leftParams.setPaddingBottom(bottom);
+        leftParams.setPaddingRight(right);
+    }
+
+    public ItemGravity getLeftGravity() {
+        return leftParams.getItemGravity();
+    }
+
+    public void setLeftGravity(ItemGravity leftGravity) {
+        leftParams.setItemGravity(leftGravity);
+    }
+
+    public float getContentTextSize() {
+        return contentParams.getTextSize();
+    }
+
+    public void setContentTextSize(int contentTextSize) {
+        contentParams.setTextSize(contentTextSize);
+    }
+
+    public int getContentTextColor() {
+        return contentParams.getTextColor();
+    }
+
+    public void setContentTextColor(int contentTextColor) {
+        contentParams.setTextColor(contentTextColor);
+
+    }
+
+    public int getContentBackgroundColor() {
+        return contentParams.getBackgroundColor();
+    }
+
+    public void setContentBackgroundColor(int contentBackgroundColor) {
+        contentParams.setBackgroundColor(contentBackgroundColor);
+    }
+
+    public int getContentPaddingTop() {
+        return contentParams.getPaddingTop();
+    }
+
+    public int getContentPaddingLeft() {
+        return contentParams.getPaddingLeft();
+    }
+
+    public int getContentPaddingBottom() {
+        return contentParams.getPaddingBottom();
+    }
+
+    public int getContentPaddingRight() {
+        return contentParams.getPaddingRight();
+    }
+
+    public void setContentPadding(int top, int left, int bottom, int right) {
+        contentParams.setPaddingTop(top);
+        contentParams.setPaddingLeft(left);
+        contentParams.setPaddingBottom(bottom);
+        contentParams.setPaddingRight(right);
+    }
+
+    public ItemGravity getContentGravity() {
+        return contentParams.getItemGravity();
+    }
+
+    public void setContentGravity(ItemGravity contentGravity) {
+        contentParams.setItemGravity(contentGravity);
     }
 
     /**
@@ -445,20 +621,6 @@ public class TableView extends LinearLayout {
          * @param position 点击位置
          */
         void onItemClick(View item, int position);
-    }
-
-    /**
-     * 说明 Item长按事件
-     * 作者 郭翰林
-     * 创建时间 2018/2/2 下午4:50
-     */
-    public interface OnItemLongClickListenter {
-
-        /**
-         * @param item     点击项
-         * @param position 点击位置
-         */
-        void onItemLongClick(View item, int position);
     }
 
 }

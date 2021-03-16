@@ -3,16 +3,18 @@ package com.boylab.scrolltable;
 import android.graphics.Color;
 
 import com.boylab.protocol.ItemGravity;
+import com.boylab.utils.DensityUtil;
 
 import java.util.HashMap;
 import java.util.Set;
 
 class TableParams {
 
+    private DensityUtil densityUtil;
     public static final int TEXT_SIZE = 20;
     public static final int PADDING = 0;
-    public static final int HEIGHT = 80;
-    public static int WIDTH = 160;
+    public static final int HEIGHT = 40;
+    public static int WIDTH = 60;
 
     //显示格式
     private int height = HEIGHT;
@@ -29,10 +31,8 @@ class TableParams {
 
     private ItemGravity itemGravity = ItemGravity.CENTER;
 
-    public TableParams() {
-    }
-
     public TableParams(int backgroundColor) {
+        densityUtil = DensityUtil.newInstance();
         this.height = HEIGHT;
         this.textSize = 20;
         this.textColor = Color.BLACK;
@@ -46,7 +46,7 @@ class TableParams {
     }
 
     public int getHeight() {
-        return height;
+        return densityUtil.dp2px(height);
     }
 
     public void setHeight(int height) {
@@ -59,9 +59,9 @@ class TableParams {
 
     public int getWidth(int column) {
         if (itemWidth.containsKey(column)){
-            return itemWidth.get(column);
+            return densityUtil.dp2px(itemWidth.get(column));
         }
-        return WIDTH;
+        return densityUtil.dp2px(WIDTH);
     }
 
     @Deprecated

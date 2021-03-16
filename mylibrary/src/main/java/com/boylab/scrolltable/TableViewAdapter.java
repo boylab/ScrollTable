@@ -2,6 +2,7 @@ package com.boylab.scrolltable;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,10 +27,8 @@ public class TableViewAdapter extends RecyclerView.Adapter<TableViewAdapter.Scro
     private int sizeColumn = 0;
 
     private LinearLayout cacheLayout ;
-    private int focusRow = 1;
+    private int focusRow = -1;
     private int focusColumn = -1;
-
-    private TableView.OnItemLongClickListenter onItemLongClickListenter;
 
     public TableViewAdapter(Context context, ArrayList<? extends ItemRow> mTableDatas, TableParams leftParams, TableParams contentParams) {
         this.context = context;
@@ -56,9 +55,9 @@ public class TableViewAdapter extends RecyclerView.Adapter<TableViewAdapter.Scro
         int childCount = holder.layout_TableRow.getChildCount();
         for (int i = 0; i < childCount; i++) {
             FrameLayout itemLayout = (FrameLayout) holder.layout_TableRow.getChildAt(i);
-            TextView childAt = (TextView) itemLayout.getChildAt(0);
-            childAt.setText(itemRow.get(i + 1));
-            childAt.setBackgroundColor(position == focusRow ? contentParams.getFoucsColor() : contentParams.getBackgroundColor());
+            TextView text_item = (TextView) itemLayout.getChildAt(0);
+            text_item.setText(itemRow.get(i + 1));
+            text_item.setBackgroundColor(position == focusRow ? contentParams.getFoucsColor() : contentParams.getBackgroundColor());
         }
 
         mSynScrollerview.setOnScrollListener(new SynScrollerLayout.OnItemScrollView() {
@@ -75,18 +74,6 @@ public class TableViewAdapter extends RecyclerView.Adapter<TableViewAdapter.Scro
                 return false;
             }
         });
-
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (onItemLongClickListenter != null){
-                    onItemLongClickListenter.onItemLongClick(holder.itemView, position);
-                }
-                return true;
-            }
-        });
-
-        //holder.layout_FixedRow.setVisibility(holder.layout_FixedRow.getTag() == null ? View.GONE:(((int) holder.layout_FixedRow.getTag())==position? View.VISIBLE: View.GONE));
     }
 
     @Override
@@ -124,6 +111,16 @@ public class TableViewAdapter extends RecyclerView.Adapter<TableViewAdapter.Scro
         return mTableDatas.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
     public void setSynScrollerview(SynScrollerLayout mSynScrollerview) {
         this.mSynScrollerview = mSynScrollerview;
     }
@@ -144,25 +141,21 @@ public class TableViewAdapter extends RecyclerView.Adapter<TableViewAdapter.Scro
                     }
                 }
             }
-        }
 
-        this.focusRow = focusRow;
-        this.cacheLayout = focusView;
+            this.focusRow = focusRow;
+            this.cacheLayout = focusView;
 
-        int childCount = cacheLayout.getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            FrameLayout itemLayout = (FrameLayout) cacheLayout.getChildAt(i);
-            TextView childAt = (TextView) itemLayout.getChildAt(0);
-            childAt.setBackgroundColor(contentParams.getFoucsColor());
+            int childCount = cacheLayout.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                FrameLayout itemLayout = (FrameLayout) cacheLayout.getChildAt(i);
+                TextView childAt = (TextView) itemLayout.getChildAt(0);
+                childAt.setBackgroundColor(contentParams.getFoucsColor());
+            }
         }
     }
 
     public int getFocusRow() {
         return focusRow;
-    }
-
-    public void setOnItemLongClickListenter(TableView.OnItemLongClickListenter onItemLongClickListenter) {
-        this.onItemLongClickListenter = onItemLongClickListenter;
     }
 
     protected class ScrollViewHolder extends RecyclerView.ViewHolder {
@@ -182,13 +175,13 @@ public class TableViewAdapter extends RecyclerView.Adapter<TableViewAdapter.Scro
             //layout_FixedRow = itemView.findViewById(R.id.layout_FixedRow);
             freshLeftText();
 
-            for (int i = 1; i < sizeColumn; i++) {
+            for (int column = 1; column < sizeColumn; column++) {
                 View inflate = View.inflate(context, R.layout.item_tableview_text, null);
                 TextView text_item = inflate.findViewById(R.id.text_Item_TableView);
 
                 ViewGroup.LayoutParams layoutParams = text_item.getLayoutParams();
                 layoutParams.height = contentParams.getHeight();
-                layoutParams.width = contentParams.getWidth(0);
+                layoutParams.width = contentParams.getWidth(column);
                 text_item.setLayoutParams(layoutParams);
 
                 text_item.setTextSize(contentParams.getTextSize());

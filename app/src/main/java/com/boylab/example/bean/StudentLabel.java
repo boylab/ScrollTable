@@ -3,12 +3,11 @@ package com.boylab.example.bean;
 import com.boylab.protocol.ItemRow;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class StudentLabel implements ItemRow {
 
-    public static final int SIZE = 24;
+    public static final int SIZE = 13;
     private final List<String> label = new ArrayList<String>(){{
         add("序号");
         add("姓名");
@@ -32,7 +31,6 @@ public class StudentLabel implements ItemRow {
 
     @Override
     public String get(int position) {
-        position = position % label.size();
         if (position < size()){
             return label.get(position);
         }

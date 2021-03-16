@@ -40,6 +40,16 @@
 
         </com.boylab.scrolltable.SynScrollerLayout>
 
+    <LinearLayout
+        android:id="@+id/layout_FixedRow"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:visibility="gone"
+        android:layout_below="@+id/synScroller_tableRow"
+        android:layout_toRightOf="@+id/text_TableLeft"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"/>
+
         <!--固定布局暂时不要-->
         <!--<LinearLayout
             android:id="@+id/layout_FixedRow"
