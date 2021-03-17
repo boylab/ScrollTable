@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         /**
          * 下拉刷新（用的少）
          */
-        tableView.setOnRefreshListener(new TableView.OnTableRefreshListener() {
+        /*tableView.setOnRefreshListener(new TableView.OnTableRefreshListener() {
             @Override
             public void onRefresh(TableView mTableView) {
                 mTableDatas.clear();
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                     mTableView.setEnableLoadMore(true);
                 }
             }
-        });
+        });*/
 
 
         /**
