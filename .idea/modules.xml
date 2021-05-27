@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ScrollTable.iml" filepath="$PROJECT_DIR$/.idea/modules/ScrollTable.iml" group="ScrollTable" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="ScrollTable/app" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mylibrary/mylibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/mylibrary/mylibrary.iml" group="ScrollTable/mylibrary" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ScrollTable.iml" filepath="$PROJECT_DIR$/.idea/modules/ScrollTable.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ScrollTable.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ScrollTable.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mylibrary/ScrollTable.mylibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/mylibrary/ScrollTable.mylibrary.iml" />
     </modules>
   </component>
 </project>

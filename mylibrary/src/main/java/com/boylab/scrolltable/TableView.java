@@ -248,10 +248,11 @@ public class TableView extends LinearLayout {
         text_Heading.setBackgroundColor(headParams.getBackgroundColor());
         text_Heading.setPadding(headParams.getPaddingLeft(), headParams.getPaddingTop(), headParams.getPaddingRight(), headParams.getPaddingBottom());
         text_Heading.setGravity(headParams.getItemGravity().getGravity());
-        text_Heading.setText(headRow.get(0));
 
         //HeadRow
         if (headRow != null){
+            text_Heading.setText(headRow.get(0));
+
             layout_headRow.removeAllViews();
             for (int column = 1; column < headRow.size(); column++) {
                 View inflateText = inflateText(column);
