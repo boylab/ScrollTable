@@ -35,8 +35,12 @@ public class TableViewAdapter extends RecyclerView.Adapter<TableViewAdapter.Scro
         this.mTableDatas = mTableDatas;
         this.leftParams = leftParams;
         this.contentParams = contentParams;
+        notifySizeColumn();
+    }
+
+    public void notifySizeColumn() {
         if (!mTableDatas.isEmpty()){
-            sizeColumn = mTableDatas.get(0).size();
+            this.sizeColumn = mTableDatas.get(0).size();
         }
     }
 

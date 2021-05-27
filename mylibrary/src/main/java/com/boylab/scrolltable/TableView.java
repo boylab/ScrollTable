@@ -309,6 +309,7 @@ public class TableView extends LinearLayout {
     public void notifyDataSetChanged() {
         freshHeadRow();
         if (tableViewAdapter != null){
+            tableViewAdapter.notifySizeColumn();
             tableViewAdapter.notifyDataSetChanged();
         }
     }
