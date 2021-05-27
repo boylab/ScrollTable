@@ -145,16 +145,15 @@ public class TableViewAdapter extends RecyclerView.Adapter<TableViewAdapter.Scro
                     }
                 }
             }
+        }
+        this.focusRow = focusRow;
+        this.cacheLayout = focusView;
 
-            this.focusRow = focusRow;
-            this.cacheLayout = focusView;
-
-            int childCount = cacheLayout.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                FrameLayout itemLayout = (FrameLayout) cacheLayout.getChildAt(i);
-                TextView childAt = (TextView) itemLayout.getChildAt(0);
-                childAt.setBackgroundColor(contentParams.getFoucsColor());
-            }
+        int childCount = cacheLayout.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            FrameLayout itemLayout = (FrameLayout) cacheLayout.getChildAt(i);
+            TextView childAt = (TextView) itemLayout.getChildAt(0);
+            childAt.setBackgroundColor(contentParams.getFoucsColor());
         }
     }
 

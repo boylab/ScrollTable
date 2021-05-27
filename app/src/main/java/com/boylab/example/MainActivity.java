@@ -25,12 +25,12 @@ public class MainActivity extends AppCompatActivity {
         /**
          * 查询所得数据
          */
-        /*for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 3; i++) {
             mTableDatas.add(new Student(i));
-        }*/
+        }
 
         TableView tableView = findViewById(R.id.tableView);
-        //tableView.setDivider(Color.parseColor("#FFFFFF"));
+
         /**
          * 可设置一些参数...
          */
