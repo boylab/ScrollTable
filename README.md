@@ -18,7 +18,7 @@ allprojects {
 步骤2：添加依赖库：
 ```
 dependencies {
-        implementation 'com.github.boylab:ScrollTable:1.0.0'
+        implementation 'com.github.boylab:ScrollTable:Tag'
 }
 ```
 ### 2、使用

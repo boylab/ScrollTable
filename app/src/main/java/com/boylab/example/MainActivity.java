@@ -25,11 +25,12 @@ public class MainActivity extends AppCompatActivity {
         /**
          * 查询所得数据
          */
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 30; i++) {
             mTableDatas.add(new Student(i));
         }
 
         TableView tableView = findViewById(R.id.tableView);
+        tableView.setEnableRefresh(true);
 
         /**
          * 可设置一些参数...
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         /**
          * 下拉刷新（用的少）
          */
-        /*tableView.setOnRefreshListener(new TableView.OnTableRefreshListener() {
+        tableView.setOnRefreshListener(new TableView.OnTableRefreshListener() {
             @Override
             public void onRefresh(TableView mTableView) {
                 mTableDatas.clear();
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                     mTableView.setEnableLoadMore(true);
                 }
             }
-        });*/
+        });
 
 
         /**

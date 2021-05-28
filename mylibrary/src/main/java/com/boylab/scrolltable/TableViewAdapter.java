@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.boylab.protocol.ItemRow;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TableViewAdapter extends RecyclerView.Adapter<TableViewAdapter.ScrollViewHolder> {
 
@@ -57,11 +58,12 @@ public class TableViewAdapter extends RecyclerView.Adapter<TableViewAdapter.Scro
 
         holder.text_TableLeft.setText(itemRow.get(0));
         int childCount = holder.layout_TableRow.getChildCount();
+        boolean isFocus = (position == focusRow);
         for (int i = 0; i < childCount; i++) {
             FrameLayout itemLayout = (FrameLayout) holder.layout_TableRow.getChildAt(i);
             TextView text_item = (TextView) itemLayout.getChildAt(0);
             text_item.setText(itemRow.get(i + 1));
-            text_item.setBackgroundColor(position == focusRow ? contentParams.getFoucsColor() : contentParams.getBackgroundColor());
+            text_item.setBackgroundColor(isFocus ? contentParams.getFoucsColor() : contentParams.getBackgroundColor());
         }
 
         mSynScrollerview.setOnScrollListener(new SynScrollerLayout.OnItemScrollView() {
@@ -129,32 +131,22 @@ public class TableViewAdapter extends RecyclerView.Adapter<TableViewAdapter.Scro
         this.mSynScrollerview = mSynScrollerview;
     }
 
-    public void setFocusRow(LinearLayout focusView, int focusRow) {
+    public void setFocusRow(LinearLayout focusView, final int focusRow) {
         if (this.focusRow == focusRow){
             return;
         }
 
-        if (cacheLayout != null){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                if (cacheLayout.isAttachedToWindow()){
-                    int childCount = cacheLayout.getChildCount();
-                    for (int i = 0; i < childCount; i++) {
-                        FrameLayout itemLayout = (FrameLayout) cacheLayout.getChildAt(i);
-                        TextView childAt = (TextView) itemLayout.getChildAt(0);
-                        childAt.setBackgroundColor(contentParams.getBackgroundColor());
-                    }
-                }
-            }
-        }
+        int oldFocusRow = this.focusRow;
         this.focusRow = focusRow;
         this.cacheLayout = focusView;
 
-        int childCount = cacheLayout.getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            FrameLayout itemLayout = (FrameLayout) cacheLayout.getChildAt(i);
-            TextView childAt = (TextView) itemLayout.getChildAt(0);
-            childAt.setBackgroundColor(contentParams.getFoucsColor());
-        }
+       if (oldFocusRow != -1){
+           notifyItemChanged(oldFocusRow, false);
+       }
+
+       if (this.focusRow != -1){
+           notifyItemChanged(focusRow, true);
+       }
     }
 
     public int getFocusRow() {
