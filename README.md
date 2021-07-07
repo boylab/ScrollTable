@@ -27,8 +27,8 @@ dependencies {
 ```
 <com.boylab.scrolltable.TableView
     android:id="@+id/tableView"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     app:contentGravity="center"
     app:rowWidths="@array/WithList" />
 ```
