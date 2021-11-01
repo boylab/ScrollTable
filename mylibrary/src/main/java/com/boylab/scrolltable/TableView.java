@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.boylab.protocol.ItemGravity;
 import com.boylab.protocol.ItemRow;
 import com.boylab.utils.DensityUtil;
+import com.boylab.utils.RecyclerUtil;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
@@ -205,9 +206,7 @@ public class TableView extends LinearLayout {
         refreshLayout.setEnableRefresh(false);
         refreshLayout.setEnableLoadMore(false);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(RecyclerView.VERTICAL);
-        rv_TableView.setLayoutManager(layoutManager);
+        rv_TableView.setLayoutManager(RecyclerUtil.verticalManager(getContext()));
 
         layout_HeadView.setOnTouchListener(new View.OnTouchListener() {
             @Override

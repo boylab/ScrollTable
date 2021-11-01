@@ -5,12 +5,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-    
+
+    <Button
+        android:id="@+id/btn1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="3"
+        android:textSize="22sp"
+        android:textColor="@android:color/black"
+        android:text="事件1"/>
+
+    <Button
+        android:id="@+id/btn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="3"
+        android:textSize="22sp"
+        android:textColor="@android:color/black"
+        android:layout_toRightOf="@+id/btn1"
+        android:text="事件1"/>
+
+    <Button
+        android:id="@+id/btn3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="3"
+        android:textSize="22sp"
+        android:layout_toRightOf="@+id/btn2"
+        android:textColor="@android:color/black"
+        android:text="事件1"/>
+
+
     <com.boylab.scrolltable.TableView
         android:id="@+id/tableView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:contentGravity="center"
+        android:layout_below="@+id/btn1"
         app:rowWidths="@array/WithList" />
 
 </RelativeLayout>
